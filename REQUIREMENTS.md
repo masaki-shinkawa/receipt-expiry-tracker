@@ -10,13 +10,13 @@
 
 ### 1. レシートスキャン
 - カメラ撮影 or 画像ファイル選択
-- GAS経由でOpenAI gpt-4.1-mini Vision APIに画像送信
+- GAS経由でOpenAI gpt-5.4-mini Vision APIに画像送信
 - 抽出情報：商品名・購入日・店舗名・価格・数量
 - 1枚のレシートから複数商品を一括抽出
 
 ### 2. 賞味期限／消費期限の推定
 - **Primary**：アプリ内蔵JSON（日本の一般食材 約300品）をファジー検索
-- **Fallback**：見つからない場合はgpt-4.1-miniに推測依頼（信頼度を表示）
+- **Fallback**：見つからない場合はgpt-5.4-miniに推測依頼（信頼度を表示）
 - スキャン後にユーザーが確認・修正してから保存
 
 ### 3. 商品一覧管理
@@ -48,7 +48,7 @@
 |---|---|
 | Frontend | React.js + Vite + Tailwind CSS |
 | PWA | Service Worker + Web App Manifest |
-| AI | OpenAI gpt-4.1-mini (Vision対応) |
+| AI | OpenAI gpt-5.4-mini (Vision対応) |
 | Backend/API | Google Apps Script (Web App) |
 | DB | Google Spreadsheet |
 | Deploy | Cloudflare Pages |
