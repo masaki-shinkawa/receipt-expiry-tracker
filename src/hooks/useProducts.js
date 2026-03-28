@@ -52,7 +52,10 @@ export function useProducts() {
         await fetch(settings.gasUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'addProducts', products: itemsWithId }),
+          body: JSON.stringify({
+            action: 'addProducts',
+            products: itemsWithId,
+          }),
         })
       } catch {
         // Optimistic update already applied; GAS sync is best-effort
