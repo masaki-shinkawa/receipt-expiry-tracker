@@ -65,7 +65,6 @@ export default function App() {
         )}
         {activeTab === 'scan' && (
           <Scanner
-            gasUrl={settings.gasUrl}
             onProductsScanned={(newProducts) => {
               addProducts(newProducts)
               setActiveTab('list')
