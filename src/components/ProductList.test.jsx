@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ProductList from './ProductList'
 
@@ -66,14 +66,21 @@ describe('ProductList', () => {
     test('期限切れ（残り0日以下）は赤で表示する', () => {
       const products = [makeProduct({ name: '牛乳', expiryDate: '2026-03-28' })]
       render(<ProductList {...defaultProps} products={products} />)
-      // フィルターボタン + ステータスバッジの2箇所に「期限切れ」が表示される
-      expect(screen.getAllByText('期限切れ').length).toBeGreaterThanOrEqual(2)
+      const badges = screen.getAllByText('期限切れ')
+      // フィルターボタン + ステータスバッジの2箇所
+      expect(badges.length).toBeGreaterThanOrEqual(2)
+      // バッジ（spanタグ）の色クラスを検証
+      const badge = badges.find((el) => el.tagName === 'SPAN')
+      expect(badge).toHaveClass('bg-red-100', 'text-red-700')
     })
 
     test('要注意（残り1〜3日）はオレンジで表示する', () => {
       const products = [makeProduct({ name: '卵', expiryDate: '2026-03-31' })]
       render(<ProductList {...defaultProps} products={products} />)
-      expect(screen.getAllByText('要注意').length).toBeGreaterThanOrEqual(2)
+      const badges = screen.getAllByText('要注意')
+      expect(badges.length).toBeGreaterThanOrEqual(2)
+      const badge = badges.find((el) => el.tagName === 'SPAN')
+      expect(badge).toHaveClass('bg-orange-100', 'text-orange-700')
     })
 
     test('注意（残り4〜7日）は黄で表示する', () => {
@@ -81,7 +88,10 @@ describe('ProductList', () => {
         makeProduct({ name: 'チーズ', expiryDate: '2026-04-05' }),
       ]
       render(<ProductList {...defaultProps} products={products} />)
-      expect(screen.getAllByText('注意').length).toBeGreaterThanOrEqual(2)
+      const badges = screen.getAllByText('注意')
+      expect(badges.length).toBeGreaterThanOrEqual(2)
+      const badge = badges.find((el) => el.tagName === 'SPAN')
+      expect(badge).toHaveClass('bg-yellow-100', 'text-yellow-700')
     })
 
     test('安全（残り8日以上）は緑で表示する', () => {
@@ -89,7 +99,10 @@ describe('ProductList', () => {
         makeProduct({ name: 'ヨーグルト', expiryDate: '2026-04-10' }),
       ]
       render(<ProductList {...defaultProps} products={products} />)
-      expect(screen.getAllByText('安全').length).toBeGreaterThanOrEqual(2)
+      const badges = screen.getAllByText('安全')
+      expect(badges.length).toBeGreaterThanOrEqual(2)
+      const badge = badges.find((el) => el.tagName === 'SPAN')
+      expect(badge).toHaveClass('bg-green-100', 'text-green-700')
     })
   })
 
@@ -161,13 +174,6 @@ describe('ProductList', () => {
       ]
       render(<ProductList {...defaultProps} products={products} />)
 
-      // フィルターボタン（期限切れ）をexactに取得
-      const filterBtn = screen
-        .getAllByRole('button', { name: '期限切れ' })
-        .find(
-          (b) => b.closest('div')?.classList.contains('overflow-x-auto') || true
-        )
-      // filterタブのみ存在する場合はgetAllByRole[0]
       await user.click(screen.getAllByRole('button', { name: '期限切れ' })[0])
       expect(screen.getByText('古い牛乳')).toBeInTheDocument()
       expect(screen.queryByText('新鮮な卵')).not.toBeInTheDocument()
