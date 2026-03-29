@@ -51,6 +51,7 @@ function EditModal({ product, onSave, onClose }) {
     <div
       role="dialog"
       aria-modal="true"
+      aria-label="商品を編集"
       className="fixed inset-0 z-50 flex items-end justify-center bg-black/40"
     >
       <div className="bg-white w-full max-w-md rounded-t-2xl p-6 max-h-[90vh] overflow-y-auto">

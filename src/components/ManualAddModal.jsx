@@ -34,6 +34,7 @@ export default function ManualAddModal({ onAdd, onClose }) {
       note: form.note,
       expirySource: 'manual',
     })
+    setForm(DEFAULT_FORM)
   }
 
   return (
