@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 const LOCAL_KEY = 'receipt_tracker_settings'
 const DEFAULT_SETTINGS = {
-  gasUrl: '',
   notifyDaysBefore: 3,
 }
 

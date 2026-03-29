@@ -1,35 +1,36 @@
 import { useState, useEffect } from 'react'
-import { useSettings } from './useSettings.js'
 
 const LOCAL_KEY = 'receipt_tracker_products'
+const GAS_URL = import.meta.env.VITE_GAS_URL
 
 export function useProducts() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
-  const { settings } = useSettings()
 
   // Load from GAS spreadsheet on mount, fallback to localStorage
   useEffect(() => {
-    if (settings.gasUrl) {
-      fetchFromGas(settings.gasUrl)
+    if (GAS_URL) {
+      fetchFromGas()
     } else {
       const saved = localStorage.getItem(LOCAL_KEY)
       if (saved) setProducts(JSON.parse(saved))
     }
-  }, [settings.gasUrl])
+  }, [])
 
   // Always keep localStorage in sync as offline cache
   useEffect(() => {
     localStorage.setItem(LOCAL_KEY, JSON.stringify(products))
   }, [products])
 
-  async function fetchFromGas(gasUrl) {
+  async function fetchFromGas() {
     setLoading(true)
     try {
-      const res = await fetch(`${gasUrl}?action=getProducts`)
+      const res = await fetch(`${GAS_URL}?action=getProducts`, {
+        redirect: 'follow',
+      })
       if (!res.ok) throw new Error('GAS fetch failed')
       const data = await res.json()
-      if (data.products) setProducts(data.products)
+      if (data.success && Array.isArray(data.data)) setProducts(data.data)
     } catch {
       // Fall back to localStorage cache
       const saved = localStorage.getItem(LOCAL_KEY)
@@ -47,10 +48,11 @@ export function useProducts() {
     }))
     setProducts((prev) => [...itemsWithId, ...prev])
 
-    if (settings.gasUrl) {
+    if (GAS_URL) {
       try {
-        await fetch(settings.gasUrl, {
+        await fetch(GAS_URL, {
           method: 'POST',
+          redirect: 'follow',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             action: 'addProducts',
@@ -68,10 +70,11 @@ export function useProducts() {
       prev.map((p) => (p.id === id ? { ...p, ...updates } : p))
     )
 
-    if (settings.gasUrl) {
+    if (GAS_URL) {
       try {
-        await fetch(settings.gasUrl, {
+        await fetch(GAS_URL, {
           method: 'POST',
+          redirect: 'follow',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'updateProduct', id, updates }),
         })
@@ -84,10 +87,11 @@ export function useProducts() {
   async function deleteProduct(id) {
     setProducts((prev) => prev.filter((p) => p.id !== id))
 
-    if (settings.gasUrl) {
+    if (GAS_URL) {
       try {
-        await fetch(settings.gasUrl, {
+        await fetch(GAS_URL, {
           method: 'POST',
+          redirect: 'follow',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'deleteProduct', id }),
         })

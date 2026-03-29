@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 export default function SettingsModal({ settings, onSave, onClose }) {
   const [form, setForm] = useState({
-    gasUrl: settings.gasUrl ?? '',
     notifyDaysBefore: settings.notifyDaysBefore ?? 3,
   })
 
@@ -14,7 +13,6 @@ export default function SettingsModal({ settings, onSave, onClose }) {
   function handleSubmit(e) {
     e.preventDefault()
     onSave({
-      gasUrl: form.gasUrl,
       notifyDaysBefore: Number(form.notifyDaysBefore),
     })
   }
@@ -29,25 +27,6 @@ export default function SettingsModal({ settings, onSave, onClose }) {
       <div className="bg-white w-full max-w-md rounded-t-2xl p-6">
         <h2 className="text-lg font-bold text-gray-900 mb-4">設定</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <label
-            htmlFor="gasUrl"
-            className="flex flex-col gap-1 text-sm font-medium text-gray-700"
-          >
-            GAS URL
-            <input
-              id="gasUrl"
-              name="gasUrl"
-              type="url"
-              value={form.gasUrl}
-              onChange={handleChange}
-              placeholder="https://script.google.com/macros/s/.../exec"
-              className="border border-gray-300 rounded-lg px-3 py-2 text-sm"
-            />
-            <span className="text-xs text-gray-400">
-              Google Apps Script のデプロイURL（未設定の場合はローカル保存）
-            </span>
-          </label>
-
           <label
             htmlFor="notifyDaysBefore"
             className="flex flex-col gap-1 text-sm font-medium text-gray-700"
