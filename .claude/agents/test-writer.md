@@ -3,7 +3,7 @@ name: test-writer
 description: |
   Vitest + Testing Library を使ったテストコードを書く。
   TRIGGER: 「テストを書いて」「〇〇のユニットテストを追加して」「カバレッジを上げて」などの指示。
-model: claude-haiku-4-5-20251001
+model: claude-sonnet-4-6
 tools:
   - Read
   - Write

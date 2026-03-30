@@ -3,7 +3,7 @@ name: expiry-db-fuzzy
 description: |
   賞味期限DBのStage 1 文字列ファジー検索（カタカナ/ひらがな正規化 + 部分一致）の実装・デバッグを行う。
   TRIGGER: 「ファジー検索を実装して」「文字列マッチングをデバッグして」「正規化ロジックを確認して」などの指示。
-model: claude-haiku-4-5-20251001
+model: claude-sonnet-4-6
 tools:
   - Read
   - Edit
