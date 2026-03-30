@@ -31,7 +31,8 @@ export function useProducts() {
       if (!res.ok) throw new Error('GAS fetch failed')
       const data = await res.json()
       if (data.success && Array.isArray(data.data)) setProducts(data.data)
-    } catch {
+    } catch (e) {
+      console.error('[useProducts] GAS fetch failed:', e)
       // Fall back to localStorage cache
       const saved = localStorage.getItem(LOCAL_KEY)
       if (saved) setProducts(JSON.parse(saved))

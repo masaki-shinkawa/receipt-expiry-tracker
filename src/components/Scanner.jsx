@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-export default function Scanner({ gasUrl, onProductsScanned }) {
+export default function Scanner({ onProductsScanned: _onProductsScanned }) {
   return (
     <div className="flex flex-col items-center justify-center h-full gap-6 p-8 text-center text-gray-500">
       <span className="text-6xl">📷</span>
