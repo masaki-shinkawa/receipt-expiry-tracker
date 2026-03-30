@@ -3,7 +3,7 @@ name: expiry-db-matcher
 description: |
   賞味期限DBの2段階マッチングロジック（文字列ファジー検索 + Embedding類似度）の実装・デバッグを行う。
   TRIGGER: 「マッチング精度を改善して」「賞味期限DBの検索をデバッグして」「Embeddingの類似度を確認して」などの指示。
-model: claude-haiku-4-5-20251001
+model: claude-sonnet-4-6
 tools:
   - Read
   - Edit
